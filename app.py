@@ -12,6 +12,13 @@ import tensorflow as tf
 import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.use('Agg')
+<<<<<<< HEAD
+=======
+import numpy as np
+from pprint import pprint
+import requests
+import json
+>>>>>>> 1075fcae870c8bedbcc469e15b85182c8e076540
 
 
 app = Flask(__name__)
@@ -117,7 +124,7 @@ def upload_file_two():
 @app.route('/analyze', methods=['POST'])
 def analyze():
     if request.method == 'POST':
-        f = request.form["url"]
+        f = json.loads(request.data)["url"]
         print(f)
 
         r = requests.get(f)
