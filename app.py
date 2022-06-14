@@ -6,6 +6,7 @@ matplotlib.use('Agg')
 import numpy as np
 from pprint import pprint
 import requests
+import json
 
 from keras.preprocessing import image
 
@@ -111,7 +112,7 @@ def upload_file_two():
 @app.route('/analyze', methods = ['POST'])
 def analyze():
     if request.method == 'POST':
-        f = request.form["url"]
+        f = json.loads(request.data)["url"]
         print(f)
         
         r = requests.get(f)
