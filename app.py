@@ -1,24 +1,19 @@
-from flask import Flask, render_template, request, render_template_string
-import requests
 from werkzeug.utils import secure_filename
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, render_template_string
 from prod_gen_spectrograph import gen_spec_segments
 from prod_split_audio import split_audio
 from keras.preprocessing import image
+import json
+import requests
 from pprint import pprint
 import numpy as np
 import os
 import tensorflow as tf
 import matplotlib.pyplot as plt
 import matplotlib
+from datetime import datetime
+
 matplotlib.use('Agg')
-<<<<<<< HEAD
-=======
-import numpy as np
-from pprint import pprint
-import requests
-import json
->>>>>>> 1075fcae870c8bedbcc469e15b85182c8e076540
 
 
 app = Flask(__name__)
@@ -42,7 +37,7 @@ def generate_result(prediction):
             <h1>Prediction</h1>
             <table>
                 <tr>
-                
+
     """
     for i in range(0, len(prediction)*2, 2):
         td = ""
@@ -124,6 +119,19 @@ def upload_file_two():
 @app.route('/analyze', methods=['POST'])
 def analyze():
     if request.method == 'POST':
+        print("""
+
+        ===========================================================
+
+        """)
+        print("Coordinates : ", json.loads(request.data)["coordinates"])
+
+        print("""
+
+        ===========================================================
+
+        """)
+
         f = json.loads(request.data)["url"]
         print(f)
 
@@ -131,6 +139,9 @@ def analyze():
         # fname = os.path.basename(f).split("?")[0]
         fname = f.split("/")[-1]
         print(fname)
+        now = datetime.now()
+        dt_string = now.strftime("%d%m%Y%H%M%S")
+        fname = dt_string + ".m4a"
         with open(fname, 'wb') as f:
             f.write(r.content)
 
