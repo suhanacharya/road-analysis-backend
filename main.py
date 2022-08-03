@@ -14,7 +14,7 @@ split_audio('./data/audio/kpt-scem.m4a', 2)
 
 gen_spec_segments('./data/audio/kpt-scem.m4a')
 
-model = tf.keras.models.load_model('my_model.h5')
+model = tf.keras.models.load_model('../Model/my_model.h5')
 
 file_path = "./data/prod/spectrogram/segments/kpt-scem"
 
@@ -22,13 +22,14 @@ prediction = {}
 print("kpt-scem")
 for file in os.listdir(file_path):
     # print(file)
-    img=image.load_img(os.path.join(file_path, file), target_size=(310, 154, 3))
-    
-    x=image.img_to_array(img)
+    img = image.load_img(os.path.join(file_path, file),
+                         target_size=(310, 154, 3))
+
+    x = image.img_to_array(img)
     x /= 255
-    x=np.expand_dims(x, axis=0)
+    x = np.expand_dims(x, axis=0)
     images = np.vstack([x])
-    
+
     classes = model.predict(images, batch_size=10)
 
     # print(classes[0])
@@ -48,4 +49,3 @@ for file in os.listdir(file_path):
         prediction[time_stamp] = "regular"
 
 pprint(prediction)
-    
